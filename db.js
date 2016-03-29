@@ -19,7 +19,7 @@ exports.connect = function (callback) {
 // function to put something into the database
 exports.save = function (collection, item, callback) {
 	db.collection(collection).insertOne(item, function (err, result) {
-		callback(err, item, result); // result is an optional return value
+		callback(err, result); // result is an optional return value
 	});
 }
 
@@ -28,11 +28,8 @@ exports.update = function (collection, criteria, update_fields, callback) {
 	var update = {
 		$set: update_fields // ensure that the document is not overwritten
 	};
-	var options = {
-		multi: true
-	};
-	db.collection(collection).update(criteria, update, options, function (err, status) {
-		if (err) return callback (err);
+	db.collection(collection).updateMany(criteria, update, function (err, status) {
+		if (err) return callback(err);
 		callback(err, status.result); // count is the last field to make it an optional parameter
 	});
 };

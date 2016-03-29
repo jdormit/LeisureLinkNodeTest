@@ -1,12 +1,14 @@
 {
-  "name": "node-developer-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "mocha ./test/test.js"
-  },
+	"name": "node-developer-test",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"prestart":  "start mongod",
+		"start": "node index.js",
+		"pretest":  "start mongod",
+		"test": "mocha ./test/index.js"
+	},
   "author": "",
   "license": "ISC",
   "dependencies": {

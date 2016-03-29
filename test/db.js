@@ -33,14 +33,6 @@ describe('Database', function () {
 
 				expect(err).to.be.null;
 
-				expect(result._id).to.exist;
-
-				expect(result.number).to.equal(4);
-				expect(result.string).to.equal("foo");
-				expect(result.boolean).to.be.true;
-				expect(result.array).to.deep.equal([1, 2, 3, 4]);
-				expect(result.object).to.deep.equal({one: 1, two: 2});
-
 				done();
 			});
 
