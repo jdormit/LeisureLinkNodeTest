@@ -20,19 +20,7 @@ describe('Movie Model', function () {
 
 				expect(error).to.not.exist;
 
-				movie.get("The Godfather", function (error, result) {
-
-					expect(error).to.not.exist;
-
-					expect(result.title).to.equal("The Godfather");
-					expect(result.description).to.equal("The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.");
-					expect(result.release_year).to.equal(1972);
-					expect(result.rating).to.equal(9.2);
-					expect(result.actors).to.deep.equal(["Marlon Brando", "Al Pacino", "James Caan"]);
-					expect(result.directors).to.deep.equal(["Francic Ford Coppola"]);
-
-					done();
-				});
+				done();
 			});
 		});
 
