@@ -2,14 +2,14 @@
 	"name": "node-developer-test",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "app.js",
 	"scripts": {
-		"prestart":  "start mongod",
-		"start": "node index.js",
-		"pretest":  "start mongod",
+		"prestart":  "node ./bin/prestart",
+		"start": "node app.js",
+		"pretest":  "node ./bin/prestart",
 		"test": "mocha ./test/index.js"
 	},
-  "author": "",
+  "author": "Jeremy Dormitzer",
   "license": "ISC",
   "dependencies": {
     "assert": "^1.3.0",
