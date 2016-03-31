@@ -8,7 +8,7 @@ describe('Director Model', function () {
 	describe('Create a director', function () {
 
 		it('creates a director', function (done) {
-
+			
 			var name = "J.J. Abrams";
 			var age = 50;
 			var gender = 'M';
@@ -47,7 +47,8 @@ describe('Director Model', function () {
 			director.get("J.J. Abrams", function (error, result) {
 
 				expect(error).to.not.exist;
-
+				
+				expect(result.id).to.equal("jjabrams");
 				expect(result.name).to.equal("J.J. Abrams");
 				expect(result.age).to.equal(50);
 				expect(result.gender).to.equal('M');
@@ -84,7 +85,8 @@ describe('Director Model', function () {
 				director.get("Wes Anderson", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("wesanderson");
 					expect(result.name).to.equal("Wes Anderson");
 					expect(result.age).to.equal(50);
 					expect(result.gender).to.equal('M');
@@ -106,7 +108,8 @@ describe('Director Model', function () {
 				director.get("Wes Anderson", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("wesanderson");
 					expect(result.name).to.equal("Wes Anderson");
 					expect(result.age).to.equal(47);
 					expect(result.gender).to.equal('M');
@@ -128,7 +131,8 @@ describe('Director Model', function () {
 				director.get("Wes Anderson", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("wesanderson");
 					expect(result.name).to.equal("Wes Anderson");
 					expect(result.age).to.equal(47);
 					expect(result.gender).to.equal('M');
@@ -151,7 +155,8 @@ describe('Director Model', function () {
 				director.get("Wes Anderson", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("wesanderson");
 					expect(result.name).to.equal("Wes Anderson");
 					expect(result.age).to.equal(47);
 					expect(result.gender).to.equal('M');
@@ -163,6 +168,30 @@ describe('Director Model', function () {
 
 			});
 
+		});
+
+		it('updates directed movie list', function (done) {
+			
+			var directed = ["The Grand Budapest Hotel", "The Royal Tenenbaums"];
+
+			director.updateDirected("Wes Anderson", directed, function (error) {
+				
+				expect(error).to.not.exist;
+
+				director.get("Wes Anderson", function (error, result) {
+					
+					expect(error).to.not.exist;
+					
+					expect(result.id).to.equal("wesanderson");
+					expect(result.name).to.equal("Wes Anderson");
+					expect(result.age).to.equal(47);
+					expect(result.gender).to.equal('M');
+					expect(result.directed).to.deep.equal(["The Grand Budapest Hotel", "The Royal Tenenbaums"]);
+					
+					done();
+				});
+
+			});
 		});
 
 	});

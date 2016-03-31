@@ -46,18 +46,22 @@ exports.find = function (collection, query, projection, callback) {
 			}
 			else if (count == 1) { // handle case where there is only one result
 				docs.nextObject(function (err, doc) {
+					// do not return the _id
+					delete doc._id;
 					callback(err, doc);
 				});
 			}
 			else { // there are multiple results -- return object organized by {doc._id: doc}
-				var result = {};
+				var result = [];
 				docs.each(function (error, doc) {
 					if (error) return callback(error, undefined);
 					if (doc == null) { //we've reached the end of the cursor
 						callback(undefined, result);
 					}
 					else
-						result[doc._id] = doc;
+						// do not return the _id
+						delete doc._id;
+						result.push(doc);
 				});
 			}
 		});

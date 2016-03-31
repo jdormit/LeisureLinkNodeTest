@@ -90,6 +90,44 @@ describe('Database', function () {
 
 		});
 
+		it('find multiple objects in the database', function (done) { 
+		
+			var data2 = {
+				number: 4,
+				string: "bar",
+				boolean: false,
+				array: [5, 6, 7, 8],
+				object: { three: 3, four: 4 }
+			}
+
+			db.save(collection, data2, function (error) { 
+			
+				expect(error).to.not.exist;
+
+				db.find(collection, { number: 4 }, undefined, function (error, result) {
+					
+					expect(error).to.not.exist;
+					expect(result).to.deep.equal([
+						{
+							number: 4,
+							string: "foo",
+							boolean: true,
+							array: [1, 2, 3, 4],
+							object: { one: 1, two: 2 }
+						}, 
+						{
+							number: 4,
+							string: "bar",
+							boolean: false,
+							array: [5, 6, 7, 8],
+							object: { three: 3, four: 4 }
+						}
+					]);
+				
+					done();
+				});
+			});
+		});
 	});
 
 	describe('Update an object in the database', function () {
@@ -152,11 +190,11 @@ describe('Database', function () {
 		
 		it('deletes an object', function (done) {
 
-			db.delete(collection, { string: "foo" }, function (err) {
+			db.delete(collection, { $or: [{ number: 4 }, { string: "foo" }] }, function (err) {
 
 				expect(err).to.not.exist;
 
-				db.find(collection, { string: "foo" }, undefined, function (err, result) {
+				db.find(collection, { $or: [{ number: 4 }, {string: "foo" }] }, undefined, function (err, result) {
 
 					expect(err).to.not.exist;
 

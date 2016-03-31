@@ -52,7 +52,8 @@ describe('Movie Model', function () {
 			movie.get("The Godfather", function (error, result) {
 
 				expect(error).to.not.exist;
-
+				
+				expect(result.id).to.equal("thegodfather");
 				expect(result.title).to.equal("The Godfather");
 				expect(result.description).to.equal("The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.");
 				expect(result.release_year).to.equal(1972);
@@ -90,7 +91,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.");
 					expect(result.release_year).to.equal(1972);
@@ -115,7 +117,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1972);
@@ -139,7 +142,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -163,7 +167,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -187,7 +192,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -211,7 +217,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -236,7 +243,7 @@ describe('Movie Model', function () {
 
 					expect(error).to.not.exist;
 
-
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -261,7 +268,7 @@ describe('Movie Model', function () {
 
 					expect(error).to.not.exist;
 
-
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -285,7 +292,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -309,7 +317,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -333,7 +342,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);
@@ -357,7 +367,8 @@ describe('Movie Model', function () {
 				movie.get("The Godfather: Part 2", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("thegodfatherpart2")
 					expect(result.title).to.equal("The Godfather: Part 2");
 					expect(result.description).to.equal("The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on his crime syndicate stretching from Lake Tahoe, Nevada to pre-revolution 1958 Cuba.");
 					expect(result.release_year).to.equal(1974);

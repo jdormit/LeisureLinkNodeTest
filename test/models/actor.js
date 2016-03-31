@@ -50,7 +50,8 @@ describe('Actor Model', function () {
 			actor.get("Al Pacino", function (error, result) {
 
 				expect(error).to.not.exist;
-
+				
+				expect(result.id).to.equal("alpacino")
 				expect(result.name).to.equal("Al Pacino");
 				expect(result.age).to.equal(76);
 				expect(result.gender).to.equal('M');
@@ -88,7 +89,8 @@ describe('Actor Model', function () {
 				actor.get("Harrison Ford", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("harrisonford")
 					expect(result.name).to.equal("Harrison Ford");
 					expect(result.age).to.equal(76);
 					expect(result.gender).to.equal('M');
@@ -111,7 +113,8 @@ describe('Actor Model', function () {
 				actor.get("Harrison Ford", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("harrisonford");
 					expect(result.name).to.equal("Harrison Ford");
 					expect(result.age).to.equal(73);
 					expect(result.gender).to.equal('M');
@@ -134,7 +137,8 @@ describe('Actor Model', function () {
 				actor.get("Harrison Ford", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("harrisonford");
 					expect(result.name).to.equal("Harrison Ford");
 					expect(result.age).to.equal(73);
 					expect(result.gender).to.equal('M');
@@ -155,7 +159,8 @@ describe('Actor Model', function () {
 				actor.get("Harrison Ford", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("harrisonford");
 					expect(result.name).to.equal("Harrison Ford");
 					expect(result.age).to.equal(73);
 					expect(result.gender).to.equal('M');
@@ -178,7 +183,8 @@ describe('Actor Model', function () {
 				actor.get("Harrison Ford", function (error, result) {
 
 					expect(error).to.not.exist;
-
+					
+					expect(result.id).to.equal("harrisonford");
 					expect(result.name).to.equal("Harrison Ford");
 					expect(result.age).to.equal(73);
 					expect(result.gender).to.equal('M');
