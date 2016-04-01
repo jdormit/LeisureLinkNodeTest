@@ -6,54 +6,100 @@ block append scripts
 block content
 	div#add_movie.modal.fade
 		div.modal-dialog
-			div.modal-header
-				button(type='button', data-dismiss='modal', ).close
-					span &times;
-				h4.modal-title Add A Movie
-			div.modal-body
-				form#add_movie_form
-					div.form-group
-						label(for='movie_title') Title
-						input#movie_title.form-control(type='text' name='title' placeholder='Movie Title' required)
-					div.form-group
-						label(for='movie_rating') Rating
-						div#movie_rating.input-group
-							input.form-control(type='range', name='rating', min='1', max='10', step='.1', value='5')
-							span#rating.input-group-addon 5
-					div.form-group
-						label(for='movie_description') Description
-						textarea#movie_description.form-control(name='description' placeholder='Movie Description')
-					div.form-group
-						label(for='movie_release_year') Year Released
-						select#movie_release_year.form-control(name='release_year')
-						- var year = 1800
-						- var currentYear = new Date().getFullYear()
-						while year <= currentYear
-							if year == currentYear
-								option(value=year selected) #{ year }
-							else
-								option(value=year) #{ year }
-							- year++
-					div.form-group
-						label(for='actor_list') Lead Actors
-						div#actor_list.input-group
-							input.form-control(type='text', placeholder='Actor Name')
-							button#add_movie_actor.input-group-addon.btn.btn-default(type='button')
-								span.glyphicon.glyphicon-plus
-					div.form-group
-						label(for='director_list') Directors
-						div#director_list.input-group
-							input.form-control(type='text', placeholder='Director Name')
-							button#add_movie_director.input-group-addon.btn.btn-default(type='button')
-								span.glyphicon.glyphicon-plus
-			div.modal-footer
-				button(type='button', data-disminss='modal').btn.btn-default Close
-				button(type='submit', form='add_movie_form').btn.btn-default Add Movie
+			div.modal-content
+				div.modal-header
+					button(type='button', data-dismiss='modal', ).close
+						span &times;
+					h4.modal-title Add A Movie
+				div.modal-body
+					form#add_movie_form
+						div.form-group
+							label(for='movie_title') Title
+							input#movie_title.form-control(type='text' name='title' placeholder='Movie Title' required)
+						div.form-group
+							label(for='movie_rating') Rating
+							div#movie_rating.input-group
+								input#rating_range.form-control(type='range', name='rating', min='1', max='10', step='.1', value='5')
+								span(data-parent='rating_range').input-group-addon 5.0
+						div.form-group
+							label(for='movie_description') Description
+							textarea#movie_description.form-control(name='description' placeholder='Movie Description')
+						div.form-group
+							label(for='movie_release_year') Year Released
+							select#movie_release_year.form-control(name='release_year')
+								- var year = 1800
+								- var currentYear = new Date().getFullYear()
+								while year <= currentYear
+									if year == currentYear
+										option(value=year selected) #{ year }
+									else
+										option(value=year) #{ year }
+									- year++
+						div.form-group
+							label(for='actor_list') Lead Actors
+							ul#actor_list().list-unstyled
+							div.input-group
+								input#actor_name.form-control(type='text', placeholder='Add Actors Here')
+								div.input-group-btn
+									button#add_movie_actor.btn.btn-default.list-builder(type='button', data-list='#actor_list', data-input='#actor_name')
+										span.glyphicon.glyphicon-plus
+						div.form-group
+							label(for='director_list') Directors
+							ul#director_list().list-unstyled
+							div.input-group
+								input#director_name.form-control(type='text', placeholder='Add Directors Here')
+								div.input-group-btn
+									button#add_movie_director.btn.btn-default.list-builder(type='button', data-list='#director_list', data-input='#director_name')
+										span.glyphicon.glyphicon-plus
+				div.modal-footer
+					button(type='button', data-dismiss='modal').btn.btn-default Close
+					button(type='submit', form='add_movie_form').btn.btn-default Add Movie
+	div#add_actor.modal.fade
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button(type='button', data-dismiss='modal', ).close
+						span &times;
+					h4.modal-title Add An Actor
+				div.modal-body
+					form#add_actor_form
+						div.form-group
+							label(for='actor_name') Name
+							input#actor_name.form-control(type='text' name='name' placeholder='Actor Name' required)
+						div.form-group
+							label(for='actor_age') Age
+							select#actor_ager.form-control(name='age')
+								- var age = 0;
+								while age <= 125
+									if age == 35
+										option(value=age selected) #{ age }
+									else
+										option(value=age) #{ age }
+									- age++
+						div.form-group
+							label(for='actor_list') Lead Actors
+							ul#actor_list().list-unstyled
+							div.input-group
+								input#actor_name.form-control(type='text', placeholder='Add Actors Here')
+								div.input-group-btn
+									button#add_movie_actor.btn.btn-default.list-builder(type='button', data-list='#actor_list', data-input='#actor_name')
+										span.glyphicon.glyphicon-plus
+						div.form-group
+							label(for='director_list') Directors
+							ul#director_list().list-unstyled
+							div.input-group
+								input#director_name.form-control(type='text', placeholder='Add Directors Here')
+								div.input-group-btn
+									button#add_movie_director.btn.btn-default.list-builder(type='button', data-list='#director_list', data-input='#director_name')
+										span.glyphicon.glyphicon-plus
+				div.modal-footer
+					button(type='button', data-dismiss='modal').btn.btn-default Close
+					button(type='submit', form='add_movie_form').btn.btn-default Add Movie
 	div.row
 		div.col-md-4
 			div.page-header
 				h1 Movies
-					button#add_movie(type='button', data-toggle='modal', data-target='add_movie').btn.btn-default.btn-lg.pull-right
+					button#add_movie(type='button', data-toggle='modal', data-target='#add_movie').btn.btn-default.btn-lg.pull-right
 						span.glyphicon.glyphicon-plus
 			div#movies.panel-group
 		div.col-md-4

@@ -10,8 +10,8 @@ exports.create = function (title, description, release_year, rating, actors, dir
 		if (error) return callback(error);
 		if (result !== 'EMPTY_RESULT') return callback(undefined, 'MOVIE_ALREADY_EXISTS');
 		// validate arguments
-		if (release_year < 1800 || release_year > (new Date().getFullYear()) || typeof release_year !== "number") return callback(new Error("Invalid Release Year"));
-		if (rating < 1 || rating > 10 || typeof rating !== "number") return callback(new Error("Invalid Rating"));
+		if (release_year < 1800 || release_year > (new Date().getFullYear())) return callback(new Error("Invalid Release Year"));
+		if (rating < 1 || rating > 10) return callback(new Error("Invalid Rating"));
 
 		// construct movie object
 		var movie = {
@@ -76,7 +76,7 @@ exports.updateReleaseYear = function (title, newYear, callback) {
 	var id = title.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
 
 	// validate year
-	if (newYear < 1800 || newYear > (new Date().getFullYear()) || typeof newYear !== "number") return callback	(new Error("Invalid Release Year"));
+	if (newYear < 1800 || newYear > (new Date().getFullYear())) return callback	(new Error("Invalid Release Year"));
 	
 	db.update(collection, { id: id }, { release_year: newYear }, function (error) { 
 		callback(error);
@@ -88,7 +88,7 @@ exports.updateRating = function (title, newRating, callback) {
 	var id = title.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
 
 	// validate rating
-	if (newRating < 1 || newRating > 10 || typeof newRating !== "number") return callback(new Error("Invalid Rating"));
+	if (newRating < 1 || newRating > 10) return callback(new Error("Invalid Rating"));
 	
 	db.update(collection, { id: id }, { rating: newRating }, function (error) { 
 		callback(error);

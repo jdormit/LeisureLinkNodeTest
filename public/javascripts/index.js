@@ -1,10 +1,85 @@
-﻿$(document).ready(function () { 
+﻿$(document).ready(function () {
 	
+	// activate bootstrap objects
+	$('.modal').modal({ show: false });
+
 	load_movies();
 	load_actors();
 	load_directors();
+	
+	// handle list-building in the create forms
+	$('.list-builder').click(function (event) {
+		var input_ref = $(this).data('input');
+		var list_ref = $(this).data('list');
+		// only add to list if there is valid input
+		if ($(input_ref).val().trim() !== "") {
+			var input_value = $(input_ref).val();
+			var list_item = $('<li>', { text: input_value }).append(
+					$('<button>', { html: '&times;' }).addClass('btn-delete-list-item btn btn-xs btn-danger')
+			);
+			// delete any warnings that have been generated
+			$(list_ref).find('.alert').remove();
+			$(list_ref).append(list_item);
+			$(input_ref).val("");
+		}
+	});
+	
+	// event handler to delete list-builder items
+	$(document).on('click', '.btn-delete-list-item', function (event) { 
+		$(this).parent().remove();
+	});
 
+	// handle track value updating
+	$('input[type="range"]').on('input', function (event) { 
+		var display_value = parseFloat($(this).val()).toFixed(1);
+		$('span[data-parent="' + $(this).prop('id') + '"').html(display_value);
+	});
+
+	// handle add movie form submission
+	$('#add_movie_form').submit(function (event) {
+		event.preventDefault();
+		
+		// validate form data
+		if ($('#actor_list').is(':empty')) {
+			warn('#actor_list', "You must enter at least one actor")
+			return;
+		}
+		if ($('#director_list').is(':empty')) {
+			warn('#director_list', "You must enter at least one director")
+			return;
+		}
+
+		var movie = {
+			title: $('#movie_title').val(),
+			rating: $('#rating_range').val(),
+			description: $('#movie_description').val(),
+			release_year: $('#movie_release_year').val(),
+			actors: [],
+			directors: []
+		}
+		$('#actor_list').find("li").each(function (index, element) { 
+			movie.actors.push($(element).contents()[0].data);
+			
+		});
+		$('#director_list').find("li").each(function (index, element) {
+			movie.directors.push($(element).contents()[0].data);
+		});
+		$.post('/movies', movie, function (response) {
+			load_movies();
+			$('#add_movie').modal('hide');
+		});
+	});
 });
+
+// function that generates a warning message
+function warn(parent_id, message) {
+	var parent = $(parent_id);
+	var warning =
+		$('<div>').addClass('alert alert-danger').append(
+			$('<span>').addClass('glyphicon glyphicon-exclamation-sign')
+		).append(" " + message);
+	parent.append(warning);
+}
 
 // function to load the movie list
 function load_movies() {
