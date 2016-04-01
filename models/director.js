@@ -10,7 +10,7 @@ exports.create = function (name, age, gender, directed, callback) {
 		if (result !== "EMPTY_RESULT") return callback(new Error("Director Already Exists"));
 
 		// validate arguments
-		if (age < 0 || age > 125 || typeof age !== "number") return callback(new Error("Invalid Age"));
+		if (age < 0 || age > 125) return callback(new Error("Invalid Age"));
 		if (!(gender === 'M' || gender === 'F')) return callback(new Error("Invalid Gender"));
 
 		var director = {
@@ -61,7 +61,7 @@ exports.updateAge = function (id, newAge, callback) {
 	var id_str = id.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
 
 	// validate age
-	if (newAge < 0 || newAge > 125 || typeof newAge !== "number") return callback(new Error("Invalid Age"));
+	if (newAge < 0 || newAge > 125) return callback(new Error("Invalid Age"));
 
 	db.update(collection, { id: id_str }, { age: newAge }, function (error, status) {
 		callback(error);

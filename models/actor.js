@@ -11,7 +11,7 @@ exports.create = function (name, age, gender, agent, filmography, callback) {
 		if (result !== "EMPTY_RESULT") return callback(new Error("Actor Already Exists"));
 
 		// validate arguments
-		if (age < -1 || age > 125 || typeof age !== "number") return callback(new Error("Invalid Age"));
+		if (age < -1 || age > 125) return callback(new Error("Invalid Age"));
 		if (!(gender === 'M' || gender === 'F')) return callback(new Error("Invalid Gender"));
 		
 		var actor = {
@@ -72,7 +72,7 @@ exports.updateAge = function (id, newAge, callback) {
 	var id_std = id.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
 
 	// validate age
-	if (newAge < -1 || newAge > 125 || typeof newAge !== "number") return callback(new Error("Invalid Age"));
+	if (newAge < -1 || newAge > 125) return callback(new Error("Invalid Age"));
 
 	db.update(collection, { id: id_std }, { age: newAge }, function (error, status) { 
 		callback(error);

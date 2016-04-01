@@ -43,7 +43,6 @@ exports.get = function (title, callback) {
 exports.all = function (callback) {
 	db.find(collection, undefined, undefined, function (error, result) {
 		// ensure that result is an array
-		console.log(result);
 		if (!Array.isArray(result)) result = [result];
 		callback(error, result);
 	});
