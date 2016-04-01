@@ -72,6 +72,18 @@ describe('Director Model', function () {
 
 		});
 
+		it('gets all directors', function (done) {
+			
+			director.all(function (error, result) {
+				
+				expect(error).to.not.exist;
+				
+				expect(result).to.be.a('array');
+				
+				done();
+			});
+		});
+
 	});
 
 	describe('Update a director', function () {

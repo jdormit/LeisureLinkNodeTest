@@ -32,6 +32,7 @@ router.get('/:id', function (req, res, next) {
 
 // POST /director adds a director to the database
 router.post('/', function (req, res, next) {
+
 	var name = req.body.name;
 	var age = req.body.age;
 	var gender = req.body.gender;

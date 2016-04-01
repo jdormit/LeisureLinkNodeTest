@@ -8,6 +8,7 @@ var movie = require('../models/movie');
 // GET /movies returns all movies
 router.get('/', function (req, res, next) {
 	movie.all(function (error, result) {
+		console.log(result);
 		if (error) throw error;
 		// check for empty result
 		if (result === "EMPTY_RESULT")
@@ -95,7 +96,6 @@ router.put('/:id', function (req, res, next) {
 						});
 						break;
 					case "actors":
-						console.log(req.body[param]);
 						movie.updateActors(id, req.body[param], function (error) {
 							if (error) throw error;
 						});

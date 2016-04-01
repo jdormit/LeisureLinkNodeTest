@@ -76,6 +76,18 @@ describe('Actor Model', function () {
 
 		});
 
+		it('gets all actors', function (done) { 
+		
+			actor.all(function (error, result) { 
+				
+				expect(error).to.not.exist;
+
+				expect(result).to.be.a('array');
+
+				done();
+			});
+		});
+
 	});
 
 	describe('Update an actor', function () {

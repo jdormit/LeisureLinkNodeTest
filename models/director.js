@@ -4,7 +4,6 @@ var collection = "director";
 exports.create = function (name, age, gender, directed, callback) {
 	// construct id, e.g. "J.J. Abrams" -> "jjabrams"
 	var id = name.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
-	
 	// check for duplicates
 	exports.get(name, function (error, result) {
 		if (error) return callback(error);
@@ -38,7 +37,9 @@ exports.get = function (name, callback) {
 };
 
 exports.all = function (callback) {
-	db.find(collection, undefined, undefined, function (error, result) { 
+	db.find(collection, undefined, undefined, function (error, result) {
+		// ensure that result is an array
+		if (!Array.isArray(result)) result = [result];
 		callback(error, result);
 	});
 };

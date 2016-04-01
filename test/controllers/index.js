@@ -7,17 +7,9 @@ chai.use(chai_http);
 var expect = chai.expect;
 var request = chai.request;
 
+var app = "http://localhost:3000";
+
 describe('Index controller', function () {
-	var app;
-	beforeEach(function () {
-		// create a new server instance for each test
-		delete require.cache[require.resolve('../../app')];
-		app = require('../../app');
-	});
-	afterEach(function () {
-		// close the server after each test
-		app.close();
-	});
 
 	it('responds to requests for root', function (done) {
 

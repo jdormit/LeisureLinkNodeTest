@@ -1,6 +1,7 @@
 // Application initialization and entry point
 
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
 
@@ -23,12 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // pass requests to routers
 app.use('/', routes);
 
-// connect to database
+// connect to database and listen for client connections
 db.connect(function (error) {
 	if (error) throw error;
-});
-
-// expose the http server for testing
-module.exports = app.listen(3000, function () {
-	console.log("Application started: http://localhost:3000");
+			
+	app.listen(3000);
 });

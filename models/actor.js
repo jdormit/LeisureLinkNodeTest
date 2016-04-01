@@ -38,6 +38,14 @@ exports.get = function (id, callback) {
 	});
 };
 
+exports.all = function (callback) {
+	db.find(collection, undefined, undefined, function (error, result) { 
+		// ensure that result is an array
+		if (!Array.isArray(result)) result = [result];
+		callback(error, result);
+	});
+};
+
 exports.delete = function (id, callback) {
 	// id can be a name or an id, so standardize it to an id
 	var id_std = id.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
@@ -55,7 +63,7 @@ exports.updateName = function (id, newName, callback) {
 	var newId = newName.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
 
 	db.update(collection, { id: id_std }, { id: newId, name: newName }, function (error, status) { 
-		callback(error);
+		callback(error, newId); // return new id in callback
 	});
 };
 
@@ -107,5 +115,17 @@ exports.removeFilm = function (id, film, callback) {
 		db.update(collection, { id: id_std }, { filmography: filmography }, function (error, status) { 
 			callback(error);
 		});
+	});
+};
+
+exports.updateFilmography = function (id, filmography, callback) {
+	// id can be a name or an id, so standardize it to an id
+	var id_std = id.toLowerCase().replace(/[\s\-\.\'\:]/g, "");
+
+	// validate filmography
+	if (!Array.isArray(filmography)) return callback(new Error("Filmography Must Be An Array"));
+
+	db.update(collection, { id: id }, { filmography: filmography }, function (error, status) { 
+		callback(error);
 	});
 };
