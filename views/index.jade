@@ -247,7 +247,15 @@ block content
 				div.modal-footer
 					button(type='button', data-dismiss='modal').btn.btn-default Cancel
 					button(type='submit', form='edit_director_form').btn.btn-default Save Changes
-
+	div#search_bar.row
+		div.col-sm-12
+			form#search_form
+				div.form-group
+					div.input-group.input-group-lg
+						span.input-group-addon
+							span.glyphicon.glyphicon-search
+						input#search.form-control(type='text', placeholder='Enter A Search Term', autocomplete='off')
+					div#search_results.list-group
 	div.row
 		div.col-md-4
 			div.page-header

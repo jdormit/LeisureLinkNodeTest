@@ -1,6 +1,6 @@
 @import 'range_input';
 
-button, .btn, .btn-default, .btn-lg {
+button, .btn, .btn-default, .btn-lg, a {
 	&:focus, &:active {
 		outline: none !important;
 	}
@@ -12,4 +12,12 @@ button, .btn, .btn-default, .btn-lg {
 
 textarea {
 	resize: vertical;
+}
+
+#search_bar {
+	margin-top: 7%;
+}
+
+#search_results {
+	display: none;
 }

@@ -333,12 +333,83 @@
 	});
 
 	// intercept anchor urls to toggle the relevant item
-	$(window).on('hashchange', function () { 
-		if ($(window.location.hash))
-			$(window.location.hash).collapse('show');
+	$(window).on('hashchange', function () {
+		if ($(window.location.hash)) {
+			var collapse_hash = window.location.hash + "-collapse";
+			$(collapse_hash).parents('.panel-group').find('.collapse').collapse('hide');	
+			$(collapse_hash).collapse('show');
+		}
+	});
+
+	// handle search box behavior
+	$('#search_form').submit(function (event) { event.preventDefault(); })
+
+	$('#search').on('input', function () {
+		$('#search_results').empty();
+		if ($('#search').val().trim() !== "") {
+			searchFor($('#search').val(), function (result) {
+				if (result.length > 0) {
+					result.forEach(function (value) {
+						var name;
+						if (value.title) name = value.title;
+						else if (value.name) name = value.name;
+						$('#search_results').append(
+							$('<a>', { href: '#' + value.id }).addClass('list-group-item').append(
+								$('<h4>', { text: name }).addClass('list-group-item-header'),
+								$('<p>', { html: '<strong>' + value.type + '</strong>'}).addClass('list-group-item-text')
+							)
+						)
+					});
+				} else {
+					$('#search_results').append(
+						$('<p>', { text: 'No search results found.' })
+					);
+				}
+				$('#search_results').show();
+			});
+		}
+	});
+
+	$('#search').blur(function (event) {
+		$('#search').val("");
+		if (event.relatedTarget && event.relatedTarget.href)
+			document.location.href = event.relatedTarget.href;
+		$('#search_results').hide();
 	});
 
 });
+
+// function to search the database
+function searchFor(input, callback) {
+	input = normalize_id(input); // normalize the input
+	var inputRegEx = new RegExp('^' + input + '.*');
+	var result = [];
+	$.get('/movies', function (movies) {
+		movies.forEach(function (movie) {
+			if (inputRegEx.test(movie.id)) {
+				movie.type = 'Movie';
+				result.push(movie);
+			}
+		});
+		$.get('/actors', function (actors) {
+			actors.forEach(function (actor) {
+				if (inputRegEx.test(actor.id)) {
+					actor.type = 'Actor';
+					result.push(actor);
+				}
+			});
+			$.get('/directors', function (directors) {
+				directors.forEach(function (director) {
+					if (inputRegEx.test(director.id)) {
+						director.type = 'Director';
+						result.push(director);
+					}
+				});
+				callback(result);
+			});
+		});
+	});
+};
 
 // function that generates a warning message
 function warn(parent_id, message) {
@@ -362,7 +433,7 @@ function load_movies() {
 					$('<div>').addClass('panel-heading').append(
 						$('<h3>').addClass('panel-title').append(
 							$('<a>', {
-								href: '#' + movie.id, text: movie.title + " (" + movie.release_year + ")",
+								id: movie.id, href: '#' + movie.id + '-collapse', text: movie.title + " (" + movie.release_year + ")",
 								'data-toggle': 'collapse'	, 'data-parent': '#movies'
 							})
 						).append(
@@ -370,7 +441,7 @@ function load_movies() {
 							$('<a>', { href: '#', 'data-id': movie.id }).addClass('edit-movie pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit'))
 						)
 					).add(
-						$('<div>', { id: movie.id }).addClass('panel-collapse collapse').html(						
+						$('<div>', { id: movie.id + '-collapse' }).addClass('panel-collapse collapse').html(						
 							$('<ul>').addClass('list-group').append(
 								$('<li>').addClass('list-group-item').append(
 									$('<h4>', { text: "Description" }).addClass('list-group-item-heading'),
@@ -418,7 +489,7 @@ function load_actors() {
 					$('<div>').addClass('panel-heading').append(
 						$('<h3>').addClass('panel-title').append(
 							$('<a>', {
-								href: '#' + actor.id, text: actor.name,
+								id: actor.id, href: '#' + actor.id + '-collapse', text: actor.name,
 								'data-toggle': 'collapse', 'data-parent': '#actors'
 							}).append('<span>')
 						).append(
@@ -426,7 +497,7 @@ function load_actors() {
 							$('<a>', {href: '#', 'data-type': 'actors', 'data-id': actor.id }).addClass('edit-actor pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit'))
 						)
 					).add(
-						$('<div>', { id: actor.id }).addClass('panel-collapse collapse').html(
+						$('<div>', { id: actor.id + '-collapse' }).addClass('panel-collapse collapse').html(
 							$('<ul>').addClass('list-group').append(
 								$('<li>').addClass('list-group-item').append(
 									$('<h4>', { text: "Age" }).addClass('list-group-item-heading'),
@@ -465,7 +536,7 @@ function load_directors() {
 					$('<div>').addClass('panel-heading').append(
 						$('<h3>').addClass('panel-title').append(
 							$('<a>', {
-								href: '#' + director.id, text: director.name,
+								id: director.id, href: '#' + director.id + '-collapse', text: director.name,
 								'data-toggle': 'collapse', 'data-parent': '#directors'
 							})
 						).append(
@@ -473,7 +544,7 @@ function load_directors() {
 							$('<a>', { href: '#', 'data-type': 'directors', 'data-id': director.id }).addClass('edit-director pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit'))
 						)
 					).add(
-						$('<div>', { id: director.id }).addClass('panel-collapse collapse').html(
+						$('<div>', { id: director.id + '-collapse' }).addClass('panel-collapse collapse').html(
 							$('<ul>').addClass('list-group').append(
 								$('<li>').addClass('list-group-item').append(
 									$('<h4>', { text: "Age" }).addClass('list-group-item-heading'),

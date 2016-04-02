@@ -73,7 +73,7 @@
   [type=range]:focus::-ms-fill-upper {
     background: #f1f1f1; }
 
-button:focus, button:active, .btn:focus, .btn:active, .btn-default:focus, .btn-default:active, .btn-lg:focus, .btn-lg:active {
+button:focus, button:active, .btn:focus, .btn:active, .btn-default:focus, .btn-default:active, .btn-lg:focus, .btn-lg:active, a:focus, a:active {
   outline: none !important; }
 
 .btn-delete-list-item {
@@ -81,5 +81,11 @@ button:focus, button:active, .btn:focus, .btn:active, .btn-default:focus, .btn-d
 
 textarea {
   resize: vertical; }
+
+#search_bar {
+  margin-top: 7%; }
+
+#search_results {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
