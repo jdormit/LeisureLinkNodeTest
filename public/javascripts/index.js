@@ -2,6 +2,7 @@
 	
 	// activate bootstrap objects
 	$('.modal').modal({ show: false });
+	$('.collapse').collapse({ toggle: false });
 
 	load_movies();
 	load_actors();
@@ -16,7 +17,7 @@
 		grandparent.find('.alert').remove();
 		
 		var remove_alert =
-			$('<div>', { text: 'This will permananently remove this item from the database. Are you sure?' }).addClass('alert alert-warning alert-dismissable fade in').append(
+			$('<div>', { html: 'This will permananently remove this item from the database. Are you sure?<br><br>' }).addClass('alert alert-warning alert-dismissable fade in').append(
 				$('<button>', { type: 'button', 'data-path': path, 'data-id': id }).addClass('btn btn-danger btn-block delete').html("Delete"),
 				$('<button>', { type: 'button', 'data-dismiss': 'alert' }).addClass('btn btn-default btn-block').html("Cancel")
 		)
@@ -165,6 +166,178 @@
 		});
 	});
 
+	// handle movie object editing
+	$(document).on('click', '.edit-movie', function (event) {
+		// reset actor and director lists
+		$('#edit_movie_form').find('li').remove();
+
+		var id = $(this).data('id');
+		$.get('/movies/' + id, function (movie) {
+			$('#edit_movie_title').html(movie.title);
+			$('#edit_rating_range').val(movie.rating);
+			$('#edit_rating_display').html(movie.rating);
+			$('#edit_movie_description').val(movie.description);
+			$('#edit_movie_release_year').val(movie.release_year);
+			movie.actors.forEach(function (value, index) { 
+				$('#edit_actor_list').append($('<li>', { text: value }).append(
+					$('<button>', { html: '&times;' }).addClass('btn-delete-list-item btn btn-xs btn-danger')
+				));
+			});
+			movie.directors.forEach(function (value, index) {
+				$('#edit_director_list').append($('<li>', { text: value }).append(
+					$('<button>', { html: '&times;' }).addClass('btn-delete-list-item btn btn-xs btn-danger')
+				));
+			});
+			$('#edit_movie').modal('show');
+		});
+	});
+
+	// handle edit movie form submit
+	$('#edit_movie_form').submit(function (event) {
+		event.preventDefault();
+		
+		// validate form data
+		if ($('#edit_actor_list').is(':empty')) {
+			warn('#edit_actor_list', "You must enter at least one actor")
+			return;
+		}
+		if ($('#edit_director_list').is(':empty')) {
+			warn('#director_list', "You must enter at least one director")
+			return;
+		}
+		
+		var movie = {
+			title: $('#edit_movie_title').html(),
+			rating: $('#edit_rating_range').val(),
+			description: $('#edit_movie_description').val(),
+			release_year: $('#edit_movie_release_year').val(),
+			actors: [],
+			directors: []
+		}
+		$('#edit_actor_list').find("li").each(function (index, element) {
+			movie.actors.push($(element).contents()[0].data);
+			
+		});
+		$('#edit_director_list').find("li").each(function (index, element) {
+			movie.directors.push($(element).contents()[0].data);
+		});
+		$.ajax({
+			type: 'PUT',
+			url: '/movies/' + normalize_id(movie.title),
+			data: movie,
+			success: function (response) {
+				load_movies();
+				$('#edit_movie').modal('hide');
+			}
+		});
+	});
+
+	// handle actor object editing
+	$(document).on('click', '.edit-actor', function (event) {
+		// reset film list
+		$('#edit_actor_form').find('li').remove();
+		
+		var id = $(this).data('id');
+		$.get('/actors/' + id, function (actor) {
+			$('#edit_actor_name').html(actor.name);
+			$('#edit_actor_age').val(actor.age);
+			$('#edit_actor_agent').val(actor.agent);
+			actor.filmography.forEach(function (value, index) {
+				$('#edit_actor_movie_list').append($('<li>', { text: value }).append(
+					$('<button>', { html: '&times;' }).addClass('btn-delete-list-item btn btn-xs btn-danger')
+				));
+			});
+			$('#edit_actor').modal('show');
+		});
+	});
+
+	// handle edit actor form submit
+	$('#edit_actor_form').submit(function (event) {
+		event.preventDefault();
+		
+		// validate form data
+		if ($('#edit_actor_movie_list').is(':empty')) {
+			warn('#edit_actor_movie_list', "You must enter at least one film")
+			return;
+		}
+		
+		var actor = {
+			name: $('#edit_actor_name').html(),
+			age: $('#edit_actor_age').val(),
+			agent: $('#edit_actor_agent').val(),
+			filmography: []
+		}
+		
+		$('#edit_actor_movie_list').find("li").each(function (index, element) {
+			actor.filmography.push($(element).contents()[0].data);
+		});
+		
+		$.ajax({
+			type: 'PUT',
+			url: '/actors/' + normalize_id(actor.name),
+			data: actor,
+			success: function (response) {
+				load_actors();
+				$('#edit_actor').modal('hide');
+			}
+		});
+	});
+
+	// handle director object editing
+	$(document).on('click', '.edit-director', function (event) {
+		// reset film list
+		$('#edit_director_form').find('li').remove();
+		
+		var id = $(this).data('id');
+		$.get('/directors/' + id, function (director) {
+			$('#edit_director_name').html(director.name);
+			$('#edit_director_age').val(director.age);
+			director.directed.forEach(function (value, index) {
+				$('#edit_director_movie_list').append($('<li>', { text: value }).append(
+					$('<button>', { html: '&times;' }).addClass('btn-delete-list-item btn btn-xs btn-danger')
+				));
+			});
+			$('#edit_director').modal('show');
+		});
+	});
+
+	// handle edit director form submit
+	$('#edit_director_form').submit(function (event) {
+		event.preventDefault();
+		
+		// validate form data
+		if ($('#edit_director_movie_list').is(':empty')) {
+			warn('#edit_director_movie_list', "You must enter at least one film")
+			return;
+		}
+		
+		var director = {
+			name: $('#edit_director_name').html(),
+			age: $('#edit_director_age').val(),
+			directed: []
+		}
+		
+		$('#edit_director_movie_list').find("li").each(function (index, element) {
+			director.directed.push($(element).contents()[0].data);
+		});
+		
+		$.ajax({
+			type: 'PUT',
+			url: '/directors/' + normalize_id(director.name),
+			data: director,
+			success: function (response) {
+				load_directors();
+				$('#edit_director').modal('hide');
+			}
+		});
+	});
+
+	// intercept anchor urls to toggle the relevant item
+	$(window).on('hashchange', function () { 
+		if ($(window.location.hash))
+			$(window.location.hash).collapse('show');
+	});
+
 });
 
 // function that generates a warning message
@@ -189,16 +362,15 @@ function load_movies() {
 					$('<div>').addClass('panel-heading').append(
 						$('<h3>').addClass('panel-title').append(
 							$('<a>', {
-								href: '#' + movie.id + "-collapse", text: movie.title + " (" + movie.release_year + ")",
+								href: '#' + movie.id, text: movie.title + " (" + movie.release_year + ")",
 								'data-toggle': 'collapse'	, 'data-parent': '#movies'
 							})
 						).append(
 							$('<a>', { href: '#', 'data-type': 'movies', 'data-id': movie.id }).addClass('delete-item pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-remove-sign')),
-							$('<a>', { href: '#', 'data-type': 'movies', 'data-id': movie.id }).addClass('edit-item pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit')),
-							$('<a>', { href: '/movies/' + movie.id }).addClass('pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-info-sign'))
+							$('<a>', { href: '#', 'data-id': movie.id }).addClass('edit-movie pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit'))
 						)
 					).add(
-						$('<div>', { id: movie.id + "-collapse" }).addClass('panel-collapse collapse').html(						
+						$('<div>', { id: movie.id }).addClass('panel-collapse collapse').html(						
 							$('<ul>').addClass('list-group').append(
 								$('<li>').addClass('list-group-item').append(
 									$('<h4>', { text: "Description" }).addClass('list-group-item-heading'),
@@ -222,13 +394,13 @@ function load_movies() {
 			movie.actors.forEach(function (actor_name) {
 				$(actor_list).append(
 					$('<li>')
-					.html($('<a>', {href: "/actors/" + normalize_id(actor_name), text: actor_name}))
+					.html($('<a>', {href: "#" + normalize_id(actor_name), text: actor_name}))
 				);
 			});
 			movie.directors.forEach(function (director_name) {
 				$(director_list).append(
 					$('<li>')
-					.html($('<a>', { href: "/directors/" + normalize_id(director_name), text: director_name }))
+					.html($('<a>', { href: "#" + normalize_id(director_name), text: director_name }))
 				);
 			});
 		});
@@ -246,16 +418,15 @@ function load_actors() {
 					$('<div>').addClass('panel-heading').append(
 						$('<h3>').addClass('panel-title').append(
 							$('<a>', {
-								href: '#' + actor.id + "-collapse", text: actor.name,
+								href: '#' + actor.id, text: actor.name,
 								'data-toggle': 'collapse', 'data-parent': '#actors'
 							}).append('<span>')
 						).append(
 							$('<a>', { href: '#', 'data-type': 'actors', 'data-id': actor.id }).addClass('delete-item pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-remove-sign')),
-							$('<a>', {href: '#', 'data-type': 'actors', 'data-id': actor.id }).addClass('edit-item pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit')),
-							$('<a>', { href: '/actors/' + actor.id }).addClass('pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-info-sign'))
+							$('<a>', {href: '#', 'data-type': 'actors', 'data-id': actor.id }).addClass('edit-actor pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit'))
 						)
 					).add(
-						$('<div>', { id: actor.id + "-collapse" }).addClass('panel-collapse collapse').html(
+						$('<div>', { id: actor.id }).addClass('panel-collapse collapse').html(
 							$('<ul>').addClass('list-group').append(
 								$('<li>').addClass('list-group-item').append(
 									$('<h4>', { text: "Age" }).addClass('list-group-item-heading'),
@@ -276,7 +447,7 @@ function load_actors() {
 			actor.filmography.forEach(function (film_name) {
 				$(film_list).append(
 					$('<li>')
-					.html($('<a>', { href: "/movies/" + normalize_id(film_name), text: film_name }))
+					.html($('<a>', { href: "#" + normalize_id(film_name), text: film_name }))
 				);
 			});
 		});
@@ -294,16 +465,15 @@ function load_directors() {
 					$('<div>').addClass('panel-heading').append(
 						$('<h3>').addClass('panel-title').append(
 							$('<a>', {
-								href: '#' + director.id + "-collapse", text: director.name,
+								href: '#' + director.id, text: director.name,
 								'data-toggle': 'collapse', 'data-parent': '#directors'
 							})
 						).append(
 							$('<a>', { href: '#', 'data-type': 'directors', 'data-id': director.id }).addClass('delete-item pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-remove-sign')),
-							$('<a>', { href: '#', 'data-type': 'directors', 'data-id': director.id }).addClass('edit-item pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit')),
-							$('<a>', { href: '/directors/' + director.id }).addClass('pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-info-sign'))
+							$('<a>', { href: '#', 'data-type': 'directors', 'data-id': director.id }).addClass('edit-director pull-right btn btn-xs').append($('<span>').addClass('glyphicon glyphicon-edit'))
 						)
 					).add(
-						$('<div>', { id: director.id + "-collapse" }).addClass('panel-collapse collapse').html(
+						$('<div>', { id: director.id }).addClass('panel-collapse collapse').html(
 							$('<ul>').addClass('list-group').append(
 								$('<li>').addClass('list-group-item').append(
 									$('<h4>', { text: "Age" }).addClass('list-group-item-heading'),
@@ -320,7 +490,7 @@ function load_directors() {
 			director.directed.forEach(function (film_name) {
 				$(film_list).append(
 					$('<li>')
-					.html($('<a>', { href: "/movies/" + normalize_id(film_name), text: film_name }))
+					.html($('<a>', { href: "#" + normalize_id(film_name), text: film_name }))
 				);
 			});
 		});

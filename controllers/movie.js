@@ -8,7 +8,6 @@ var movie = require('../models/movie');
 // GET /movies returns all movies
 router.get('/', function (req, res, next) {
 	movie.all(function (error, result) {
-		console.log(result);
 		if (error) throw error;
 		// check for empty result
 		if (result === "EMPTY_RESULT")
@@ -57,7 +56,7 @@ router.put('/:id', function (req, res, next) {
 	
 	movie.get(id, function (error, result) {
 		if (error) throw error;
-		if (result === 'EMPTY_RESULT') res.status(404).send("movie not found")
+		if (result === 'EMPTY_RESULT') return res.status(404).send("movie not found")
 		
 		// changing the title will change the id, so handle that first
 		if (req.body.title) {
@@ -85,7 +84,7 @@ router.put('/:id', function (req, res, next) {
 							if (error) throw error;
 						});
 						break;
-					case "year_released":
+					case "release_year":
 						movie.updateReleaseYear(id, req.body[param], function (error) {
 							if (error) throw error;
 						});
@@ -107,7 +106,7 @@ router.put('/:id', function (req, res, next) {
 						break;
 					default:
 						// the parameter is invalid
-						res.status(400).send("Invalid parameter");
+						return res.status(400).send("Invalid parameter");
 				}
 			}
 			res.status(200).send("movie updated");

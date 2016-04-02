@@ -52,8 +52,55 @@ block content
 									button#add_movie_director.btn.btn-default.list-builder(type='button', data-list='#director_list', data-input='#movie_director_name')
 										span.glyphicon.glyphicon-plus
 				div.modal-footer
-					button(type='button', data-dismiss='modal').btn.btn-default Close
+					button(type='button', data-dismiss='modal').btn.btn-default Cancel
 					button(type='submit', form='add_movie_form').btn.btn-default Add Movie
+	div#edit_movie.modal.fade
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button(type='button', data-dismiss='modal', ).close
+						span &times;
+					h4.modal-title Edit Movie
+				div.modal-body
+					form#edit_movie_form
+						div.form-group
+							label(for='movie_title') Title
+							h4#edit_movie_title.form-control-static
+						div.form-group
+							label(for='movie_rating') Rating
+							div#edit_movie_rating.input-group
+								input#edit_rating_range.form-control(type='range', name='rating', min='1', max='10', step='.1', value='5')
+								span#edit_rating_display(data-parent='rating_range').input-group-addon 5.0
+						div.form-group
+							label(for='edit_movie_description') Description
+							textarea#edit_movie_description.form-control(name='description' placeholder='Movie Description')
+						div.form-group
+							label(for='edit_movie_release_year') Year Released
+							select#edit_movie_release_year.form-control(name='release_year')
+								- var year = 1800
+								- var currentYear = new Date().getFullYear()
+								while year <= currentYear
+									option(value=year) #{ year }
+									- year++
+						div.form-group
+							label(for='edit_actor_list') Lead Actors
+							ul#edit_actor_list().list-unstyled
+							div.input-group
+								input#edit_movie_actor_name.form-control(type='text', placeholder='Add Actors Here')
+								div.input-group-btn
+									button#edit_movie_actor.btn.btn-default.list-builder(type='button', data-list='#edit_actor_list', data-input='#edit_movie_actor_name')
+										span.glyphicon.glyphicon-plus
+						div.form-group
+							label(for='edit_director_list') Directors
+							ul#edit_director_list().list-unstyled
+							div.input-group
+								input#edit_movie_director_name.form-control(type='text', placeholder='Add Directors Here')
+								div.input-group-btn
+									button#edit_movie_director.btn.btn-default.list-builder(type='button', data-list='#edit_director_list', data-input='#edit_movie_director_name')
+										span.glyphicon.glyphicon-plus
+				div.modal-footer
+					button(type='button', data-dismiss='modal').btn.btn-default Cancel
+					button(type='submit', form='edit_movie_form').btn.btn-default Save Changes
 	div#add_actor.modal.fade
 		div.modal-dialog
 			div.modal-content
@@ -92,8 +139,44 @@ block content
 									button#add_actor_film.btn.btn-default.list-builder(type='button', data-list='#actor_movie_list', data-input='#actor_movie_title')
 										span.glyphicon.glyphicon-plus
 				div.modal-footer
-					button(type='button', data-dismiss='modal').btn.btn-default Close
+					button(type='button', data-dismiss='modal').btn.btn-default Cancel
 					button(type='submit', form='add_actor_form').btn.btn-default Add Actor
+	div#edit_actor.modal.fade
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button(type='button', data-dismiss='modal', ).close
+						span &times;
+					h4.modal-title Edit Actor
+				div.modal-body
+					form#edit_actor_form
+						div.form-group
+							label(for='edit_actor_name') Name
+							h4#edit_actor_name.form-control-static
+						div.form-group
+							label(for='edit_actor_age') Age
+							select#edit_actor_age.form-control(name='age')
+								- var age = 0;
+								while age <= 125
+									if age == 35
+										option(value=age selected) #{ age }
+									else
+										option(value=age) #{ age }
+									- age++
+						div.form-group
+							label(for='edit_actor_agent') Agent
+							input#edit_actor_agent.form-control(type='text' name='agent' placeholder='Agent or Agency Name')
+						div.form-group
+							label(for='edit_actor_movie_list') Filmography
+							ul#edit_actor_movie_list().list-unstyled
+							div.input-group
+								input#edit_actor_movie_title.form-control(type='text', placeholder='Add Films Here')
+								div.input-group-btn
+									button#edit_actor_film.btn.btn-default.list-builder(type='button', data-list='#edit_actor_movie_list', data-input='#edit_actor_movie_title')
+										span.glyphicon.glyphicon-plus
+				div.modal-footer
+					button(type='button', data-dismiss='modal').btn.btn-default Cancel
+					button(type='submit', form='edit_actor_form').btn.btn-default Save Changes
 	div#add_director.modal.fade
 		div.modal-dialog
 			div.modal-content
@@ -129,24 +212,58 @@ block content
 									button#add_director_film.btn.btn-default.list-builder(type='button', data-list='#director_movie_list', data-input='#director_movie_title')
 										span.glyphicon.glyphicon-plus
 				div.modal-footer
-					button(type='button', data-dismiss='modal').btn.btn-default Close
+					button(type='button', data-dismiss='modal').btn.btn-default Cancel
 					button(type='submit', form='add_director_form').btn.btn-default Add Director
+	div#edit_director.modal.fade
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button(type='button', data-dismiss='modal', ).close
+						span &times;
+					h4.modal-title Add A Director
+				div.modal-body
+					form#edit_director_form
+						div.form-group
+							label(for='director_name') Name
+							h4#edit_director_name.form-control
+						div.form-group
+							label(for='director_age') Age
+							select#edit_director_age.form-control(name='age')
+								- var age = 0;
+								while age <= 125
+									if age == 35
+										option(value=age selected) #{ age }
+									else
+										option(value=age) #{ age }
+									- age++
+						div.form-group
+							label(for='edit_director_movie_list') Films Directed
+							ul#edit_director_movie_list().list-unstyled
+							div.input-group
+								input#edit_director_movie_title.form-control(type='text', placeholder='Add Films Here')
+								div.input-group-btn
+									button#edit_director_film.btn.btn-default.list-builder(type='button', data-list='#edit_director_movie_list', data-input='#edit_director_movie_title')
+										span.glyphicon.glyphicon-plus
+				div.modal-footer
+					button(type='button', data-dismiss='modal').btn.btn-default Cancel
+					button(type='submit', form='edit_director_form').btn.btn-default Save Changes
+
 	div.row
 		div.col-md-4
 			div.page-header
 				h1 Movies
-					button#add_movie(type='button', data-toggle='modal', data-target='#add_movie').btn.btn-default.btn-lg.pull-right
+					button#add_movie_button(type='button', data-toggle='modal', data-target='#add_movie').btn.btn-default.btn-lg.pull-right
 						span.glyphicon.glyphicon-plus
 			div#movies.panel-group
 		div.col-md-4
 			div.page-header
 				h1 Actors
-					button#add_actor(type='button', data-toggle='modal', data-target='#add_actor').btn.btn-default.btn-lg.pull-right
+					button#add_actor_button(type='button', data-toggle='modal', data-target='#add_actor').btn.btn-default.btn-lg.pull-right
 						span.glyphicon.glyphicon-plus
 			div#actors.panel-group
 		div.col-md-4
 			div.page-header
 				h1 Directors
-					button#add_director(type='button', data-toggle='modal', data-target='#add_director').btn.btn-default.btn-lg.pull-right
+					button#add_director_button(type='button', data-toggle='modal', data-target='#add_director').btn.btn-default.btn-lg.pull-right
 						span.glyphicon.glyphicon-plus
 			div#directors.panel-group
